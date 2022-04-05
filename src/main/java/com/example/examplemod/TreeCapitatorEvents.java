@@ -42,7 +42,6 @@ public class TreeCapitatorEvents {
                                 //System.out.println(pos.add(x,y,z).toString());
 
                                 world.getBlockState(pos.add(x,y,z)).getBlock().breakBlock(world, pos.add(x,y,z), state);
-                                world.getBlockState(pos.add((x,y,z)).
 
                                 world.setBlockToAir(pos.add(x,y,z));
 
