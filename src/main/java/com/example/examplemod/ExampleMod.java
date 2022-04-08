@@ -1,7 +1,9 @@
 package com.example.examplemod;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -33,5 +35,12 @@ public class ExampleMod
         // some example code
         //logger.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
     }
+
+    public static final CreativeTabs CTAB = new CreativeTabs("examplemod") {
+        @Override
+        public ItemStack getTabIconItem() {
+            return new ItemStack(ItemsRegistry.LOOTBOX);
+        }
+    };
 
 }
