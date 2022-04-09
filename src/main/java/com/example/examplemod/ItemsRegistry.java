@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 
 @GameRegistry.ObjectHolder("examplemod")
-@Mod.EventBusSubscriber// Автоматическая регистрация статичных обработчиков событий
+@Mod.EventBusSubscriber
 public class ItemsRegistry {
 
     @GameRegistry.ObjectHolder("LOOTBOX")
