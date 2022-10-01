@@ -1,15 +1,22 @@
 package com.example.examplemod;
 
+import com.example.examplemod.capabilities.ITFCharms;
+import com.example.examplemod.capabilities.TFCharmsProvider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -20,7 +27,7 @@ import java.util.List;
 @Mod.EventBusSubscriber
 public class EventsHandler {
     @SubscribeEvent
-    public static void onDeath(LivingHurtEvent e) {
+    public static void onDeathDamage(LivingHurtEvent e) {
         if (e.getEntity() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) e.getEntity();
             if (player.getHealth() - e.getAmount() <= 0) {
@@ -34,40 +41,28 @@ public class EventsHandler {
                     return;
                 } else if (stack.getItem() == ForgeRegistries.ITEMS.getValue
                         (new ResourceLocation("tfcharms", "HPCHARMONE"))) {
-                    System.out.printf(player.getHealth() + "||||" + player.getMaxHealth());
                     player.setHealth(player.getMaxHealth()/10);
                     stack.shrink(1);
                     e.setAmount(0);
                     return;
                     }
+                else if (stack.getItem() == ForgeRegistries.ITEMS.getValue
+                        (new ResourceLocation("tfcharms", "INVCHARMONE"))) {
+                    stack.shrink(1);
+                    ITFCharms itemsToRestore = player.getCapability(TFCharmsProvider.ITEMS_TO_RETURN, null);
+                    itemsToRestore.setItemsToRestore(player.getHeldItemMainhand().serializeNBT());
+                    }
                 }
             }
         }
     }
+
+
+    @SubscribeEvent
+    public static void onRespawn(PlayerEvent.Clone e) { //Проверка на нулл в e.getOriginal или что-то типа того
+        //попробовать все через e.getOriginal без capabilities
+        ITFCharms itemsToRestore = e.getOriginal().getCapability(TFCharmsProvider.ITEMS_TO_RETURN, null);
+        e.getEntityPlayer().addItemStackToInventory(new ItemStack(itemsToRestore.getItemsToRestore()));
+        return;
+    }
 }
-
-
-/*
-if (stack.getItem() == ForgeRegistries.ITEMS.getValue //if Item is HPCHARMTWO from mod tfcharms, then if == true
-                        (new ResourceLocation("tfcharms", "HPCHARMTWO"))) {
-                    System.out.println("DEATH HCT");
-                    break;
-                } else if (stack.getItem() == ForgeRegistries.ITEMS.getValue
-                        (new ResourceLocation("tfcharms", "HPCHARMONE"))) {
-                    player.setHealth(2);
-                    System.out.println("DEATH HCO");
-                    break;
-                } else if (stack.getItem() == ForgeRegistries.ITEMS.getValue
-                        (new ResourceLocation("tfcharms", "INVCHARMTHREE"))) {
-                    System.out.println("DEATH ICTh");
-                    break;
-                } else if (stack.getItem() == ForgeRegistries.ITEMS.getValue
-                        (new ResourceLocation("tfcharms", "INVCHARMTWO"))) {
-                    System.out.println("DEATH ICTw");
-                    break;
-                } else if (stack.getItem() == ForgeRegistries.ITEMS.getValue
-                        (new ResourceLocation("tfcharms", "INVCHARMONE"))) {
-                    System.out.println("DEATH ICO");
-                    break;
-                }
-*/

@@ -1,14 +1,21 @@
 package com.example.examplemod;
 
+import com.example.examplemod.capabilities.CapabilityHandler;
+import com.example.examplemod.capabilities.ITFCharms;
+import com.example.examplemod.capabilities.TFCharms;
+import com.example.examplemod.capabilities.TFCharmsStorage;
+import com.example.examplemod.proxy.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -24,18 +31,29 @@ public class ExampleMod
 
     private static Logger logger;
 
+    @Mod.Instance(ExampleMod.MODID)
+    public static ExampleMod instance;
+
+    @SidedProxy(clientSide = "com.example.examplemod.proxy.ClientProxy", serverSide = "com.example.examplemod.proxy.CommonProxy")
+    public static CommonProxy proxy;
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        logger = event.getModLog();
+        this.logger = event.getModLog();
+
+        CapabilityManager.INSTANCE.register(ITFCharms.class, new TFCharmsStorage(), TFCharms::new);
+        MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
+
         MinecraftForge.EVENT_BUS.register(new EventsHandler());
+
+        this.proxy.preInit(event);
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-        // some example code
-        //logger.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+        this.proxy.init(event);
     }
 
     public static final CreativeTabs CTAB = new CreativeTabs("examplemod") {

@@ -7,7 +7,7 @@ public class HpCharmOne extends Item {
     public HpCharmOne() {
         this.setCreativeTab(ExampleMod.CTAB);
         this.setRegistryName("HpCharmOne");
-        this.setUnlocalizedName("HpCharmOne");
+        this.setUnlocalizedName("hpcharmone");
         this.setMaxStackSize(1);
     }
 }
