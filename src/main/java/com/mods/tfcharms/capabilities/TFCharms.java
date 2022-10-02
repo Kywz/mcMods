@@ -24,14 +24,3 @@ public class TFCharms implements ITFCharms {
         this.itemstoreturn = new NBTTagCompound();
     }
 }
-
-/*public class TFCharms implements ITFCharms {
-    private NBTTagList itemstoreturn = new NBTTagList();
-
-    public NBTTagList getItemsToRestore() {
-        return this.itemstoreturn;
-    }
-    public void setItemsToRestore(NBTTagCompound ItemsToReturn) {
-        this.itemstoreturn.appendTag(ItemsToReturn);
-    }
-}*/

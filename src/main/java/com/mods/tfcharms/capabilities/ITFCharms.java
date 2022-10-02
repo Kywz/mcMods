@@ -12,10 +12,3 @@ public interface ITFCharms {
     public NBTTagList getItemsToRestoreList();
     public void clearItemsToRestore();
 }
-
-
-/*public interface ITFCharms {
-    public NBTTagList getItemsToRestore();
-
-    public void setItemsToRestore(NBTTagCompound ItemsToReturn);
-}*/
