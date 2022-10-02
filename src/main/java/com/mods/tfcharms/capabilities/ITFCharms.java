@@ -1,4 +1,4 @@
-package com.example.examplemod.capabilities;
+package com.mods.tfcharms.capabilities;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

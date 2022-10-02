@@ -1,29 +1,23 @@
-package com.example.examplemod;
+package com.mods.tfcharms;
 
-import com.example.examplemod.capabilities.CapabilityHandler;
-import com.example.examplemod.capabilities.ITFCharms;
-import com.example.examplemod.capabilities.TFCharms;
-import com.example.examplemod.capabilities.TFCharmsStorage;
-import com.example.examplemod.proxy.CommonProxy;
+import com.mods.tfcharms.capabilities.CapabilityHandler;
+import com.mods.tfcharms.capabilities.ITFCharms;
+import com.mods.tfcharms.capabilities.TFCharms;
+import com.mods.tfcharms.capabilities.TFCharmsStorage;
+import com.mods.tfcharms.proxy.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = ExampleMod.MODID, name = ExampleMod.NAME, version = ExampleMod.VERSION)
-public class ExampleMod
+@Mod(modid = Main.MODID, name = Main.NAME, version = Main.VERSION)
+public class Main
 {
     public static final String MODID = "tfcharms";
     public static final String NAME = "TF Charms";
@@ -31,10 +25,10 @@ public class ExampleMod
 
     private static Logger logger;
 
-    @Mod.Instance(ExampleMod.MODID)
-    public static ExampleMod instance;
+    @Mod.Instance(Main.MODID)
+    public static Main instance;
 
-    @SidedProxy(clientSide = "com.example.examplemod.proxy.ClientProxy", serverSide = "com.example.examplemod.proxy.CommonProxy")
+    @SidedProxy(clientSide = "com.mods.tfcharms.proxy.ClientProxy", serverSide = "com.mods.tfcharms.proxy.CommonProxy")
     public static CommonProxy proxy;
 
     @EventHandler

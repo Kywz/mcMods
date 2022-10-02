@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package com.mods.tfcharms;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -16,7 +16,7 @@ public class ItemLootBox extends Item {
     List<Item> itemList = new ArrayList<Item>();
     Random randomGenerator = new Random();
     public ItemLootBox() {
-        this.setCreativeTab(ExampleMod.CTAB);
+        this.setCreativeTab(Main.CTAB);
         this.setRegistryName("lootbox");
         this.setUnlocalizedName("lootbox");
         this.setMaxStackSize(1);

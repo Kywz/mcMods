@@ -1,29 +1,17 @@
-package com.example.examplemod;
+package com.mods.tfcharms;
 
-import com.example.examplemod.capabilities.ITFCharms;
-import com.example.examplemod.capabilities.TFCharmsProvider;
+import com.mods.tfcharms.capabilities.ITFCharms;
+import com.mods.tfcharms.capabilities.TFCharmsProvider;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.WorldSavedData;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Mod.EventBusSubscriber
 public class EventsHandler {
@@ -54,7 +42,7 @@ public class EventsHandler {
                     }
 
                 else if (stack.getItem() == ForgeRegistries.ITEMS.getValue
-                        (new ResourceLocation("tfcharms", "INVCHARMTHREE"))) {
+                        (new ResourceLocation("tfcharms", "INVCHARMTHREE"))) { // Bug with inv clearence before death, sometimes give doesnt work
                     stack.shrink(1);
                     ITFCharms itemsToRestore = player.getCapability(TFCharmsProvider.ITEMS_TO_RETURN, null);
                     itemsToRestore.clearItemsToRestore();

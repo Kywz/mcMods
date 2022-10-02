@@ -1,6 +1,6 @@
-package com.example.examplemod.capabilities;
+package com.mods.tfcharms.capabilities;
 
-import com.example.examplemod.ExampleMod;
+import com.mods.tfcharms.Main;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Mod.EventBusSubscriber
 public class CapabilityHandler
 {
-    public static final ResourceLocation ITEMS_TO_RETURN = new ResourceLocation(ExampleMod.MODID, "itemstoreturn");
+    public static final ResourceLocation ITEMS_TO_RETURN = new ResourceLocation(Main.MODID, "itemstoreturn");
 
     @SubscribeEvent
     public void attachCapability(AttachCapabilitiesEvent<Entity> event)

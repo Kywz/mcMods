@@ -1,4 +1,4 @@
-package com.example.examplemod.proxy;
+package com.mods.tfcharms.proxy;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;

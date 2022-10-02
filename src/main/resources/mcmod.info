@@ -1,7 +1,7 @@
 [
 {
-  "modid": "tfcharms",
-  "name": "TF Charms",
+  "modid":"tfcharms",
+  "name":"TF Charms",
   "description": "TF Charms mod",
   "version": "1.0",
   "mcversion": "1.12.2",

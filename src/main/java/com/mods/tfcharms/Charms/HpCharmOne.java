@@ -1,12 +1,12 @@
-package com.example.examplemod.Charms;
+package com.mods.tfcharms.Charms;
 
-import com.example.examplemod.ExampleMod;
+import com.mods.tfcharms.Main;
 import net.minecraft.item.Item;
 
 public class HpCharmOne extends Item {
     public HpCharmOne() {
-        this.setCreativeTab(ExampleMod.CTAB);
-        this.setRegistryName("HpCharmOne");
+        this.setCreativeTab(Main.CTAB);
+        this.setRegistryName("hpcharmone");
         this.setUnlocalizedName("hpcharmone");
         this.setMaxStackSize(1);
     }
