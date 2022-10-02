@@ -19,8 +19,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mod.EventBusSubscriber(modid = "tfcharms")
 public class ItemsRegistry {
 
-    @GameRegistry.ObjectHolder("LOOTBOX")
-    public static final Item LOOTBOX = null;
     @GameRegistry.ObjectHolder("invcharmone")
     public static final Item INVCHARMONE = null;
     @GameRegistry.ObjectHolder("invcharmtwo")
@@ -35,7 +33,7 @@ public class ItemsRegistry {
 
     @SubscribeEvent
     public static void onRegistryItem(RegistryEvent.Register<Item> e) {
-        e.getRegistry().registerAll(new ItemLootBox(), new InvCharmOne(), new InvCharmTwo(),
+        e.getRegistry().registerAll(new InvCharmOne(), new InvCharmTwo(),
                 new InvCharmThree(), new HpCharmOne(), new HpCharmTwo());
 
     }

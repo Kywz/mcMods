@@ -46,7 +46,7 @@ public class EventsHandler {
                 else if (stack.getItem() == ForgeRegistries.ITEMS.getValue
                         (new ResourceLocation("tfcharms", "INVCHARMTHREE"))) { // Bug with inv clearence before death, sometimes give doesnt work
                     stack.shrink(1);
-                    ITFCharms itemsToRestore = player.getCapability(TFCharmsProvider.ITEMS_TO_RETURN, null);
+                    ITFCharms itemsToRestore = player.getCapability(TFCharmsProvider.ITEMS_TO_RETURN, null); //get capability ITEMS_TO_RETURN
                     itemsToRestore.clearItemsToRestore();
                     for (int i = 0; i<9; i++) {
                         itemsToRestore.setItemsToRestore(player.inventory.mainInventory.get(i).serializeNBT());

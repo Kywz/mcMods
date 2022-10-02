@@ -17,7 +17,6 @@ public class CapabilityHandler
     public void attachCapability(AttachCapabilitiesEvent<Entity> event)
     {
         if (!(event.getObject() instanceof EntityPlayer)) return;
-
         event.addCapability(ITEMS_TO_RETURN, new TFCharmsProvider());
     }
 }
