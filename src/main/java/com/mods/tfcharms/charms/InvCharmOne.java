@@ -1,4 +1,4 @@
-package com.mods.tfcharms.Charms;
+package com.mods.tfcharms.charms;
 
 import com.mods.tfcharms.Main;
 import net.minecraft.item.Item;

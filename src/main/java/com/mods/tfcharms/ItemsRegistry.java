@@ -1,6 +1,6 @@
 package com.mods.tfcharms;
 
-import com.mods.tfcharms.Charms.*;
+import com.mods.tfcharms.charms.*;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -15,8 +15,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 
-@GameRegistry.ObjectHolder("tfcharms")
-@Mod.EventBusSubscriber(modid = "tfcharms")
+@GameRegistry.ObjectHolder(Main.MODID)
+@Mod.EventBusSubscriber(modid = Main.MODID)
 public class ItemsRegistry {
 
     @GameRegistry.ObjectHolder("invcharmone")
