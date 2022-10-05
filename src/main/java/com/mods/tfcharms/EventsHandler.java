@@ -2,6 +2,7 @@ package com.mods.tfcharms;
 
 import com.mods.tfcharms.capabilities.ITFCharms;
 import com.mods.tfcharms.capabilities.TFCharmsProvider;
+import com.mods.tfcharms.charms.ItemEntry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
@@ -13,6 +14,8 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.ArrayList;
 
 @Mod.EventBusSubscriber
 public class EventsHandler {
@@ -69,78 +72,71 @@ public class EventsHandler {
                         itemToUse.shrink(1);
                         itemsToRestore.clearItemsToRestore();
                         for (int i = 0; i<9; i++) {
-                            itemsToRestore.setItemsToRestore(player.inventory.mainInventory.get(i).serializeNBT());
-                            player.inventory.mainInventory.get(i).setCount(0);
+                            if (player.inventory.mainInventory.get(i) != ItemStack.EMPTY) {
+                                itemsToRestore.setItemEntry("INVENTORY", (byte) i, player.inventory.mainInventory.get(i));
+                                player.inventory.mainInventory.get(i).setCount(0);
+                            }
                         }
 
                         for (int i = 0; i<4; i++) {
-                            itemsToRestore.setItemsToRestore(player.inventory.armorInventory.get(i).serializeNBT());
-                            player.inventory.armorInventory.get(i).setCount(0);
+                            if (player.inventory.armorInventory.get(i) != ItemStack.EMPTY) {
+                                itemsToRestore.setItemEntry("ARMOR", (byte) i, player.inventory.armorInventory.get(i));
+                                player.inventory.armorInventory.get(i).setCount(0);
+                            }
                         }
                         break;
 
                     case 3:
                         itemToUse.shrink(1);
-
                         itemsToRestore.clearItemsToRestore();
                         for (int i = 0; i<9; i++) {
-                            itemsToRestore.setItemsToRestore(player.inventory.mainInventory.get(i).serializeNBT());
-                            player.inventory.mainInventory.get(i).setCount(0);
+                            if (player.inventory.mainInventory.get(i) != ItemStack.EMPTY) {
+                                itemsToRestore.setItemEntry("INVENTORY", (byte) i, player.inventory.mainInventory.get(i));
+                                player.inventory.mainInventory.get(i).setCount(0);
+                            }
                         }
+
                         break;
 
                     case 4:
                         itemToUse.shrink(1);
                         itemsToRestore.clearItemsToRestore();
-                        itemsToRestore.setItemsToRestore(player.getHeldItemMainhand().serializeNBT());
+                        if (player.getHeldItemMainhand() != ItemStack.EMPTY) {
+                            itemsToRestore.setItemEntry("INVENTORY", (byte) 4, player.getHeldItemMainhand());
+                        }
                         player.getHeldItemMainhand().setCount(0);
                         break;
+
                     default:
                         break;
                 }
             }
-            /*
-
-            if (player.inventory.mainInventory.contains(new ItemStack(ItemsRegistry.HPCHARMTWO))) {
-                    player.inventory.mainInventory.remove(ItemsRegistry.HPCHARMTWO);
-                    player.setHealth(player.getMaxHealth());
-                    player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 100, 1));
-                    e.setCanceled(true);
-                } else if (stack.getItem() == ItemsRegistry.HPCHARMONE) {
-                    player.inventory.mainInventory.remove(ItemsRegistry.HPCHARMONE);
-                    player.setHealth(player.getMaxHealth() / 10);
-                    e.setCanceled(true);
-                }
-
-            * */
         }
     }
 
 
     @SubscribeEvent
-    public static void onRespawn(PlayerEvent.Clone e) { //Проверка на нулл в e.getOriginal или что-то типа того
-        //попробовать все через e.getOriginal без capabilities
+    public static void onRespawn(PlayerEvent.Clone e) {
+
         ITFCharms itemsToRestore = e.getOriginal().getCapability(TFCharmsProvider.ITEMS_TO_RETURN, null);
-        if (itemsToRestore.getItemsToRestoreList().tagCount() == 13) {
-            for (int i = 0; i < 9; i++) {
-                e.getEntityPlayer().addItemStackToInventory(new ItemStack(itemsToRestore.getItemsToRestoreList().getCompoundTagAt(i)));
+
+        ArrayList<ItemEntry> itemEntries = itemsToRestore.getItemEntry();
+
+        for (ItemEntry itemEntry : itemEntries) {
+           /* System.out.println("Item Entry: " + itemEntry);
+            System.out.println("Type: " + itemEntry.getType().toString());
+            System.out.println("Slot: " + itemEntry.getSlot());
+            System.out.println("ItemStack: " + itemEntry.getItemStack());*/
+            if (itemEntry.getType().toString() == "ARMOR") {
+                e.getEntityPlayer().inventory.armorInventory.set(itemEntry.getSlot(), itemEntry.getItemStack());
             }
 
-            for (int i = 0; i < 4; i++) {
-                e.getEntityPlayer().inventory.armorInventory.set(i, new ItemStack(itemsToRestore.getItemsToRestoreList().getCompoundTagAt(i+9)));
+            else if (itemEntry.getType().toString() == "INVENTORY") {
+                e.getEntityPlayer().inventory.setInventorySlotContents(itemEntry.getSlot(), itemEntry.getItemStack());
+            }
 
-            }
-            return;
         }
-        else if (itemsToRestore.getItemsToRestoreList().tagCount() == 9) {
-            for (int i = 0; i < 9; i++) {
-                e.getEntityPlayer().addItemStackToInventory(new ItemStack(itemsToRestore.getItemsToRestoreList().getCompoundTagAt(i)));
-            }
-            return;
-        }
-        else {
-            e.getEntityPlayer().addItemStackToInventory(new ItemStack(itemsToRestore.getItemsToRestore()));
-        }
+
         return;
     }
 }
