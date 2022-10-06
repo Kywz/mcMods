@@ -73,14 +73,14 @@ public class EventsHandler {
                         itemsToRestore.clearItemsToRestore();
                         for (int i = 0; i<9; i++) {
                             if (player.inventory.mainInventory.get(i) != ItemStack.EMPTY) {
-                                itemsToRestore.setItemEntry("INVENTORY", (byte) i, player.inventory.mainInventory.get(i));
+                                itemsToRestore.setItemEntry("INVENTORY", (byte) i, player.inventory.mainInventory.get(i).copy());
                                 player.inventory.mainInventory.get(i).setCount(0);
                             }
                         }
 
                         for (int i = 0; i<4; i++) {
                             if (player.inventory.armorInventory.get(i) != ItemStack.EMPTY) {
-                                itemsToRestore.setItemEntry("ARMOR", (byte) i, player.inventory.armorInventory.get(i));
+                                itemsToRestore.setItemEntry("ARMOR", (byte) i, player.inventory.armorInventory.get(i).copy());
                                 player.inventory.armorInventory.get(i).setCount(0);
                             }
                         }
@@ -91,7 +91,7 @@ public class EventsHandler {
                         itemsToRestore.clearItemsToRestore();
                         for (int i = 0; i<9; i++) {
                             if (player.inventory.mainInventory.get(i) != ItemStack.EMPTY) {
-                                itemsToRestore.setItemEntry("INVENTORY", (byte) i, player.inventory.mainInventory.get(i));
+                                itemsToRestore.setItemEntry("INVENTORY", (byte) i, player.inventory.mainInventory.get(i).copy());
                                 player.inventory.mainInventory.get(i).setCount(0);
                             }
                         }
@@ -102,7 +102,7 @@ public class EventsHandler {
                         itemToUse.shrink(1);
                         itemsToRestore.clearItemsToRestore();
                         if (player.getHeldItemMainhand() != ItemStack.EMPTY) {
-                            itemsToRestore.setItemEntry("INVENTORY", (byte) 4, player.getHeldItemMainhand());
+                            itemsToRestore.setItemEntry("INVENTORY",(byte) player.inventory.mainInventory.indexOf(player.getHeldItemMainhand()), player.getHeldItemMainhand().copy());
                         }
                         player.getHeldItemMainhand().setCount(0);
                         break;
@@ -119,24 +119,51 @@ public class EventsHandler {
     public static void onRespawn(PlayerEvent.Clone e) {
 
         ITFCharms itemsToRestore = e.getOriginal().getCapability(TFCharmsProvider.ITEMS_TO_RETURN, null);
-
         ArrayList<ItemEntry> itemEntries = itemsToRestore.getItemEntry();
 
+
+
         for (ItemEntry itemEntry : itemEntries) {
-           /* System.out.println("Item Entry: " + itemEntry);
-            System.out.println("Type: " + itemEntry.getType().toString());
-            System.out.println("Slot: " + itemEntry.getSlot());
-            System.out.println("ItemStack: " + itemEntry.getItemStack());*/
+
             if (itemEntry.getType().toString() == "ARMOR") {
-                e.getEntityPlayer().inventory.armorInventory.set(itemEntry.getSlot(), itemEntry.getItemStack());
+
+                if (e.getEntityPlayer().inventory.armorInventory.get(itemEntry.getSlot()) == ItemStack.EMPTY) {
+                    e.getEntityPlayer().inventory.armorInventory.set(itemEntry.getSlot(), itemEntry.getItemStack());
+                }
+
+                else if(e.getEntityPlayer().inventory.mainInventory.contains(ItemStack.EMPTY)) {
+                    for (ItemStack stack : e.getEntityPlayer().inventory.mainInventory) {
+                        if (stack == ItemStack.EMPTY) {
+                            stack = itemEntry.getItemStack();
+                            break;
+                        }
+                    }
+                }
+                else {
+                    e.getEntityPlayer().entityDropItem(itemEntry.getItemStack(), 1);
+                }
             }
 
             else if (itemEntry.getType().toString() == "INVENTORY") {
-                e.getEntityPlayer().inventory.setInventorySlotContents(itemEntry.getSlot(), itemEntry.getItemStack());
+
+                if (e.getEntityPlayer().inventory.mainInventory.get(itemEntry.getSlot()) == ItemStack.EMPTY) {
+                    e.getEntityPlayer().inventory.setInventorySlotContents(itemEntry.getSlot(), itemEntry.getItemStack());
+                }
+
+                else if(e.getEntityPlayer().inventory.mainInventory.contains(ItemStack.EMPTY)) {
+                    for (ItemStack stack : e.getEntityPlayer().inventory.mainInventory) {
+                        if (stack == ItemStack.EMPTY) {
+                            stack = itemEntry.getItemStack();
+                            break;
+                        }
+                    }
+                }
+                else {
+                    e.getEntityPlayer().entityDropItem(itemEntry.getItemStack(), 1);
+                }
             }
 
         }
-
         return;
     }
 }
