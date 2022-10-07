@@ -10,30 +10,29 @@ public class TFCharmsStorage implements Capability.IStorage<ITFCharms> {
     @Override
     public NBTBase writeNBT(Capability<ITFCharms> capability, ITFCharms instance, EnumFacing side)
     {
-        final NBTTagCompound tag = new NBTTagCompound();
+
+        NBTTagCompound tag = new NBTTagCompound();
+        NBTTagList tagList = new NBTTagList();
 
         for (ItemEntry itemEntry : instance.getItemEntry()) {
             tag.setTag("Item", itemEntry.getItemStack().serializeNBT());
             tag.setString("Type", itemEntry.getType().toString());
             tag.setByte("Slot", itemEntry.getSlot());
+            tagList.appendTag(tag);
         }
-        return tag;
+        return tagList;
     }
 
     @Override
     public void readNBT(Capability<ITFCharms> capability, ITFCharms instance, EnumFacing side, NBTBase nbt)
     {
-        NBTTagCompound tag = (NBTTagCompound) nbt;
-        for (ItemEntry itemEntry : instance.getItemEntry()){
 
+        NBTTagList tagList = (NBTTagList) nbt;
+        NBTTagCompound tag;
+
+        for (int i = 0; i < tagList.tagCount(); i++) {
+            tag = tagList.getCompoundTagAt(i);
             instance.setItemEntry(tag.getString("Type"),tag.getByte("Slot"), new ItemStack((NBTTagCompound) tag.getTag("Item")));
-            /*tag.setTag("Item", itemEntry.getItemStack().serializeNBT());
-            tag.setString("Type", itemEntry.getType().toString());
-            tag.setByte("Slot", itemEntry.getSlot());*/
         }
-
-        nbt = tag;
-
-        //instance.setItemEntry(instance.getItemEntry());
     }
 }

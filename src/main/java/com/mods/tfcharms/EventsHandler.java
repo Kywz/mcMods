@@ -6,13 +6,12 @@ import com.mods.tfcharms.charms.ItemEntry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
@@ -119,8 +118,20 @@ public class EventsHandler {
     public static void onRespawn(PlayerEvent.Clone e) {
 
         ITFCharms itemsToRestore = e.getOriginal().getCapability(TFCharmsProvider.ITEMS_TO_RETURN, null);
-        ArrayList<ItemEntry> itemEntries = itemsToRestore.getItemEntry();
 
+        /*
+        @TODO State transfer block
+         */
+        /////////////////////////////////////
+
+        ITFCharms playerCapability = e.getEntityPlayer().getCapability(TFCharmsProvider.ITEMS_TO_RETURN, null);
+        NBTTagList tagList = new NBTTagList();
+        Capability<ITFCharms> cap = TFCharmsProvider.ITEMS_TO_RETURN;
+        Capability.IStorage<ITFCharms> storage = cap.getStorage();
+        cap.readNBT(playerCapability, null, cap.writeNBT(itemsToRestore, null));
+        /////////////////////////////////////
+
+        ArrayList<ItemEntry> itemEntries = itemsToRestore.getItemEntry();
 
 
         for (ItemEntry itemEntry : itemEntries) {
