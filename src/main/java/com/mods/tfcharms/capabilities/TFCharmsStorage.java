@@ -10,11 +10,10 @@ public class TFCharmsStorage implements Capability.IStorage<ITFCharms> {
     @Override
     public NBTBase writeNBT(Capability<ITFCharms> capability, ITFCharms instance, EnumFacing side)
     {
-
-        NBTTagCompound tag = new NBTTagCompound();
         NBTTagList tagList = new NBTTagList();
 
         for (ItemEntry itemEntry : instance.getItemEntry()) {
+            NBTTagCompound tag = new NBTTagCompound();
             tag.setTag("Item", itemEntry.getItemStack().serializeNBT());
             tag.setString("Type", itemEntry.getType().toString());
             tag.setByte("Slot", itemEntry.getSlot());
@@ -32,7 +31,7 @@ public class TFCharmsStorage implements Capability.IStorage<ITFCharms> {
 
         for (int i = 0; i < tagList.tagCount(); i++) {
             tag = tagList.getCompoundTagAt(i);
-            instance.setItemEntry(tag.getString("Type"),tag.getByte("Slot"), new ItemStack((NBTTagCompound) tag.getTag("Item")));
+            instance.setItemEntry(tag.getString("Type"), tag.getByte("Slot"), new ItemStack((NBTTagCompound) tag.getTag("Item")));
         }
     }
 }

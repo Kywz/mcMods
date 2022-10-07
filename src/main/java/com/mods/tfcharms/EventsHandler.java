@@ -119,24 +119,18 @@ public class EventsHandler {
 
         ITFCharms itemsToRestore = e.getOriginal().getCapability(TFCharmsProvider.ITEMS_TO_RETURN, null);
 
-        /*
-        @TODO State transfer block
-         */
-        /////////////////////////////////////
-
         ITFCharms playerCapability = e.getEntityPlayer().getCapability(TFCharmsProvider.ITEMS_TO_RETURN, null);
         NBTTagList tagList = new NBTTagList();
         Capability<ITFCharms> cap = TFCharmsProvider.ITEMS_TO_RETURN;
         Capability.IStorage<ITFCharms> storage = cap.getStorage();
         cap.readNBT(playerCapability, null, cap.writeNBT(itemsToRestore, null));
-        /////////////////////////////////////
 
         ArrayList<ItemEntry> itemEntries = itemsToRestore.getItemEntry();
-
+        System.out.println("\n\n\n::::::::::\n" + itemEntries.toString());
 
         for (ItemEntry itemEntry : itemEntries) {
 
-            if (itemEntry.getType().toString() == "ARMOR") {
+            if (itemEntry.getType().toString().equals("ARMOR")) {
 
                 if (e.getEntityPlayer().inventory.armorInventory.get(itemEntry.getSlot()) == ItemStack.EMPTY) {
                     e.getEntityPlayer().inventory.armorInventory.set(itemEntry.getSlot(), itemEntry.getItemStack());
@@ -155,7 +149,7 @@ public class EventsHandler {
                 }
             }
 
-            else if (itemEntry.getType().toString() == "INVENTORY") {
+            else if (itemEntry.getType().toString().equals("INVENTORY")) {
 
                 if (e.getEntityPlayer().inventory.mainInventory.get(itemEntry.getSlot()) == ItemStack.EMPTY) {
                     e.getEntityPlayer().inventory.setInventorySlotContents(itemEntry.getSlot(), itemEntry.getItemStack());
