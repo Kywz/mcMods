@@ -17,7 +17,6 @@ public final class ItemEntry {
         this.itemStack = itemStack;
     }
 
-
     public TypeOfInventory getType() {
         return this.typeOfInventory;
     }
@@ -29,8 +28,5 @@ public final class ItemEntry {
     public ItemStack getItemStack() {
         return this.itemStack;
     }
-
-
-
 }
 

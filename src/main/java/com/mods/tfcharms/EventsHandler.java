@@ -3,16 +3,20 @@ package com.mods.tfcharms;
 import com.mods.tfcharms.capabilities.ITFCharms;
 import com.mods.tfcharms.capabilities.TFCharmsProvider;
 import com.mods.tfcharms.charms.ItemEntry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
 
@@ -37,17 +41,21 @@ public class EventsHandler {
                     itemToUse = stack;
                     itemPriority = 1;
                 }
-                else if ((stack.getItem() == ItemsRegistry.INVCHARMTHREE) && itemPriority >= 3) {
+                else if ((stack.getItem() == ItemsRegistry.INVCHARMFOUR) && itemPriority >= 3) {
                     itemToUse = stack;
                     itemPriority = 2;
                 }
-                else if ((stack.getItem() == ItemsRegistry.INVCHARMTWO) && itemPriority >= 4) {
+                else if ((stack.getItem() == ItemsRegistry.INVCHARMTHREE) && itemPriority >= 4) {
                     itemToUse = stack;
                     itemPriority = 3;
                 }
-                else if ((stack.getItem() == ItemsRegistry.INVCHARMONE) && itemPriority >= 5) {
+                else if ((stack.getItem() == ItemsRegistry.INVCHARMTWO) && itemPriority >= 5) {
                     itemToUse = stack;
                     itemPriority = 4;
+                }
+                else if ((stack.getItem() == ItemsRegistry.INVCHARMONE) && itemPriority >= 6) {
+                    itemToUse = stack;
+                    itemPriority = 5;
                 }
             }
 
@@ -70,7 +78,7 @@ public class EventsHandler {
                     case 2:
                         itemToUse.shrink(1);
                         itemsToRestore.clearItemsToRestore();
-                        for (int i = 0; i<9; i++) {
+                        for (int i = 0; i<36; i++) {
                             if (player.inventory.mainInventory.get(i) != ItemStack.EMPTY) {
                                 itemsToRestore.setItemEntry("INVENTORY", (byte) i, player.inventory.mainInventory.get(i).copy());
                                 player.inventory.mainInventory.get(i).setCount(0);
@@ -95,9 +103,27 @@ public class EventsHandler {
                             }
                         }
 
+                        for (int i = 0; i<4; i++) {
+                            if (player.inventory.armorInventory.get(i) != ItemStack.EMPTY) {
+                                itemsToRestore.setItemEntry("ARMOR", (byte) i, player.inventory.armorInventory.get(i).copy());
+                                player.inventory.armorInventory.get(i).setCount(0);
+                            }
+                        }
                         break;
 
                     case 4:
+                        itemToUse.shrink(1);
+                        itemsToRestore.clearItemsToRestore();
+                        for (int i = 0; i<9; i++) {
+                            if (player.inventory.mainInventory.get(i) != ItemStack.EMPTY) {
+                                itemsToRestore.setItemEntry("INVENTORY", (byte) i, player.inventory.mainInventory.get(i).copy());
+                                player.inventory.mainInventory.get(i).setCount(0);
+                            }
+                        }
+
+                        break;
+
+                    case 5:
                         itemToUse.shrink(1);
                         itemsToRestore.clearItemsToRestore();
                         if (player.getHeldItemMainhand() != ItemStack.EMPTY) {
@@ -118,15 +144,12 @@ public class EventsHandler {
     public static void onRespawn(PlayerEvent.Clone e) {
 
         ITFCharms itemsToRestore = e.getOriginal().getCapability(TFCharmsProvider.ITEMS_TO_RETURN, null);
-
         ITFCharms playerCapability = e.getEntityPlayer().getCapability(TFCharmsProvider.ITEMS_TO_RETURN, null);
         NBTTagList tagList = new NBTTagList();
         Capability<ITFCharms> cap = TFCharmsProvider.ITEMS_TO_RETURN;
         Capability.IStorage<ITFCharms> storage = cap.getStorage();
         cap.readNBT(playerCapability, null, cap.writeNBT(itemsToRestore, null));
-
         ArrayList<ItemEntry> itemEntries = itemsToRestore.getItemEntry();
-        System.out.println("\n\n\n::::::::::\n" + itemEntries.toString());
 
         for (ItemEntry itemEntry : itemEntries) {
 
@@ -144,6 +167,7 @@ public class EventsHandler {
                         }
                     }
                 }
+
                 else {
                     e.getEntityPlayer().entityDropItem(itemEntry.getItemStack(), 1);
                 }
@@ -167,8 +191,8 @@ public class EventsHandler {
                     e.getEntityPlayer().entityDropItem(itemEntry.getItemStack(), 1);
                 }
             }
-
         }
+        playerCapability.clearItemsToRestore();
         return;
     }
 }

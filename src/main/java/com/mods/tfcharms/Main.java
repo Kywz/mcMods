@@ -4,6 +4,7 @@ import com.mods.tfcharms.capabilities.CapabilityHandler;
 import com.mods.tfcharms.capabilities.ITFCharms;
 import com.mods.tfcharms.capabilities.TFCharms;
 import com.mods.tfcharms.capabilities.TFCharmsStorage;
+import com.mods.tfcharms.gui.CharmsGui;
 import com.mods.tfcharms.proxy.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -38,9 +39,8 @@ public class Main
 
         CapabilityManager.INSTANCE.register(ITFCharms.class, new TFCharmsStorage(), TFCharms::new);
         MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
-
         MinecraftForge.EVENT_BUS.register(new EventsHandler());
-
+        MinecraftForge.EVENT_BUS.register(new CharmsGui());
         this.proxy.preInit(event);
     }
 

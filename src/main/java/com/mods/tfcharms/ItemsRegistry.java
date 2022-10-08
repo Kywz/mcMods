@@ -25,16 +25,19 @@ public class ItemsRegistry {
     public static final Item INVCHARMTWO = null;
     @GameRegistry.ObjectHolder("invcharmthree")
     public static final Item INVCHARMTHREE = null;
+    @GameRegistry.ObjectHolder("invcharmfour")
+    public static final Item INVCHARMFOUR = null;
     @GameRegistry.ObjectHolder("hpcharmone")
     public static final Item HPCHARMONE = null;
     @GameRegistry.ObjectHolder("hpcharmtwo")
     public static final Item HPCHARMTWO = null;
 
 
+
     @SubscribeEvent
     public static void onRegistryItem(RegistryEvent.Register<Item> e) {
         e.getRegistry().registerAll(new InvCharmOne(), new InvCharmTwo(),
-                new InvCharmThree(), new HpCharmOne(), new HpCharmTwo());
+                new InvCharmThree(), new InvCharmFour(), new HpCharmOne(), new HpCharmTwo());
 
     }
 
@@ -46,6 +49,7 @@ public class ItemsRegistry {
         registryModel(INVCHARMONE);
         registryModel(INVCHARMTWO);
         registryModel(INVCHARMTHREE);
+        registryModel(INVCHARMFOUR);
 
     }
 
